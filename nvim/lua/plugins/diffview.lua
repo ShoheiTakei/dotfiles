@@ -10,9 +10,9 @@ return {
     "DiffviewFileHistory",
   },
   keys = {
-    { "<leader>gd", "<cmd>DiffviewOpen main<cr>", desc = "Diff against main" },
-    { "<leader>gc", "<cmd>DiffviewClose<cr>", desc = "Close Diff View" },
-    { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
+    { "<leader>gD", "<cmd>DiffviewOpen main<cr>", desc = "Diff against main" },
+    { "<leader>gC", "<cmd>DiffviewClose<cr>", desc = "Close Diff View" },
+    { "<leader>gH", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
   },
   config = function()
     require("diffview").setup({
