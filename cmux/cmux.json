@@ -1,0 +1,48 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  // WezTerm の Ctrl+s リーダーキー操作を chord で再現
+  "shortcuts": {
+    "bindings": {
+      // LEADER + h/j/k/l → ペイン移動
+      "focusLeft": ["ctrl+s", "h"],
+      "focusDown": ["ctrl+s", "j"],
+      "focusUp": ["ctrl+s", "k"],
+      "focusRight": ["ctrl+s", "l"],
+
+      // LEADER + | / - → 分割
+      "splitRight": ["ctrl+s", "shift+\\"],
+      "splitDown": ["ctrl+s", "-"],
+
+      // LEADER + q → ペインを閉じる
+      "closeTab": ["ctrl+s", "q"],
+
+      // LEADER + x → コピーモード
+      "toggleTerminalCopyMode": ["ctrl+s", "x"],
+
+      // tmux風ワークスペース操作: c=新規, n/p=次/前
+      "newTab": ["ctrl+s", "c"],
+      "nextSidebarTab": ["ctrl+s", "n"],
+      "prevSidebarTab": ["ctrl+s", "p"],
+
+      // LEADER + b → アプリ内ブラウザを開く
+      "openBrowser": ["ctrl+s", "b"],
+
+      // LEADER + F12 → ブラウザDevTools
+      "toggleBrowserDeveloperTools": ["ctrl+s", "f12"],
+
+      // LEADER + z → ペイン最大化/復元 (tmux prefix+z)
+      "toggleSplitZoom": ["ctrl+s", "z"],
+
+      // LEADER + = → 分割サイズ均等化
+      "equalizeSplits": ["ctrl+s", "="],
+
+      // LEADER + , → ワークスペース名変更 (tmux prefix+,)
+      "renameWorkspace": ["ctrl+s", ","],
+
+      // LEADER + w → ワークスペーススイッチャー (tmux prefix+w)
+      "goToWorkspace": ["ctrl+s", "w"]
+    }
+  }
+}
