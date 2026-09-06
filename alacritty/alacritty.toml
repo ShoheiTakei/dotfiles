@@ -1,4 +1,37 @@
+[window]
+# macOS: send Option as Alt so zellij Alt-bindings work
+option_as_alt = "Both"
+opacity = 0.9
+decorations = "Buttonless"
+
+[window.dimensions]
+columns = 124
+lines = 32
+
+[font]
+size = 21
+
+[colors.primary]
+background = "#1f1f28"
+
 [[keyboard.bindings]]
 key = "C"
-mods = "Control|Shift"
+mods = "Alt"
 action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key = "Return"
+mode = "Vi"
+action = "ToggleViMode"
+
+# Claude Code: Shift+Enter = newline (kitty keyboard protocol CSI-u)
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001b[13;2u"
+
+# opacity toggle: Alt+O
+[[keyboard.bindings]]
+key = "O"
+mods = "Alt"
+command = { program = "/bin/sh", args = ["-c", "$HOME/ghq/github.com/ShoheiTakei/dotfiles/alacritty/toggle-opacity.sh"] }
