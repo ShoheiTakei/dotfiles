@@ -1,0 +1,126 @@
+#!/usr/bin/env sh
+
+# Sketchybar config: Gruvbox Dark, aerospace workspaces with app icons,
+# front_app, clock, battery, apple popup, Notion Calendar launcher.
+# Based on frankfulness/dotfiles. Managed via symlink
+# ~/.config/sketchybar → repo sketchybar/.
+
+# brew services (launchd) starts sketchybar with a minimal PATH, so
+# `aerospace` and other /opt/homebrew tools won't resolve. Prepend the
+# Homebrew bin dir so item/plugin scripts can call them.
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+export CONFIG_DIR
+
+source "$CONFIG_DIR/colors.sh"
+
+ITEM_DIR="$CONFIG_DIR/items"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+FONT="HackGen35Console NF"
+APP_FONT="sketchybar-app-font:Regular:16.0"
+
+##### Bar #####
+bar=(
+  height=32
+  color=$BAR_COLOR
+  shadow=on
+  position=top
+  sticky=on
+  padding_right=10
+  padding_left=10
+  corner_radius=9
+  y_offset=4
+  margin=8
+  blur_radius=20
+  notch_width=0
+)
+sketchybar --bar "${bar[@]}"
+
+##### Defaults #####
+defaults=(
+  updates=when_shown
+  icon.font="$FONT:Bold:14.0"
+  icon.color=$ICON_COLOR
+  icon.padding_left=6
+  icon.padding_right=4
+  label.font="$FONT:Bold:13.0"
+  label.color=$LABEL_COLOR
+  label.padding_left=4
+  label.padding_right=6
+  padding_left=4
+  padding_right=4
+  background.height=26
+  background.corner_radius=8
+  popup.background.border_width=2
+  popup.background.corner_radius=9
+  popup.background.border_color=$POPUP_BORDER_COLOR
+  popup.background.color=$POPUP_BACKGROUND_COLOR
+  popup.blur_radius=20
+  popup.background.shadow.drawing=on
+)
+sketchybar --default "${defaults[@]}"
+
+##### Events #####
+sketchybar --add event aerospace_workspace_change
+
+##### Left: Apple ─ Aerospace workspaces ─ front_app #####
+source "$ITEM_DIR/apple.sh"
+
+# Pre-create all workspace items so aerospace.sh can just update them.
+for i in 1 2 3 4 5 6 7 8 9; do
+  sketchybar --add space aerospace.workspace.$i left                         \
+             --set aerospace.workspace.$i associated_display=1               \
+                                          icon.padding_left=6                \
+                                          icon.padding_right=4               \
+                                          icon.font="$APP_FONT"              \
+                                          label.padding_left=4               \
+                                          label.padding_right=6              \
+                                          label.font="$FONT:Bold:12.0"       \
+                                          background.border_width=0          \
+                                          background.corner_radius=8         \
+                                          background.height=24               \
+                                          background.drawing=on              \
+                                          click_script="aerospace workspace $i &" \
+                                          drawing=off
+done
+
+# Run aerospace.sh once to set the initial state.
+source "$ITEM_DIR/aerospace.sh"
+
+# Invisible listener that re-runs aerospace.sh on workspace change and
+# when the front app switches (so the icon strip reflects new windows).
+sketchybar --add item aerospace_listener left                                 \
+           --set aerospace_listener script="$ITEM_DIR/aerospace.sh"           \
+                                    icon.drawing=off                          \
+                                    label.drawing=off                         \
+                                    background.drawing=off                    \
+                                    width=0                                   \
+           --subscribe aerospace_listener aerospace_workspace_change front_app_switched
+
+# Front app (current focused application).
+sketchybar --add item front_app left                                          \
+           --set front_app background.color=$BACKGROUND_2                     \
+                           icon.color=$BLUE                                   \
+                           icon.font="$APP_FONT"                              \
+                           label.color=$WHITE                                 \
+                           label.font="$FONT:Bold:13.0"                       \
+                           script="$PLUGIN_DIR/front_app.sh"                  \
+           --subscribe front_app front_app_switched
+
+##### Right: calendar ─ clock ─ battery #####
+source "$ITEM_DIR/calendar.sh"
+
+sketchybar --add item clock right                                             \
+           --set clock update_freq=10                                         \
+                       script="$PLUGIN_DIR/clock.sh"                          \
+           --add item battery right                                           \
+           --set battery update_freq=120                                      \
+                         script="$PLUGIN_DIR/battery.sh"                      \
+           --subscribe battery system_woke power_source_change
+
+##### Finalize #####
+sketchybar --update
+
+echo "sketchybar configuration loaded."
