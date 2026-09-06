@@ -13,16 +13,9 @@ vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd("InsertLeave", {
+vim.api.nvim_create_autocmd({ "InsertLeave", "CmdlineLeave" }, {
   pattern = "*",
   callback = function()
-    vim.fn.system("osascript -e 'tell application \"System Events\" to key code 102'")
-  end,
-})
-
-vim.api.nvim_create_autocmd("CmdlineLeave", {
-  pattern = "*",
-  callback = function()
-    vim.fn.system("osascript -e 'tell application \"System Events\" to key code 102'")
+    vim.system({ "macism", "com.apple.keylayout.ABC" }, { detach = true })
   end,
 })
