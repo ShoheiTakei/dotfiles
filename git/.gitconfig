@@ -1,0 +1,28 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[core]
+	ignorecase = false
+	quotepath = false
+[merge]
+	conflictStyle = diff3
+[status]
+	showUntrackedFiles = all
+[alias]
+	lo = log --oneline
+  ro = reflog --oneline
+	st = stash
+  stu = stash -u
+  aa = add .
+  cmm = commit -m
+	poH = push origin HEAD
+	br = branch
+	ss = status
+  sw = switch
+  swc = switch -c
+  rb = rebase
+  po = pull origin
+[include]
+	path = ~/.gitconfig.local
