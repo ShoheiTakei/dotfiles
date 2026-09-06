@@ -30,8 +30,3 @@ key = "Return"
 mods = "Shift"
 chars = "\u001b[13;2u"
 
-# opacity toggle: Alt+O
-[[keyboard.bindings]]
-key = "O"
-mods = "Alt"
-command = { program = "/bin/sh", args = ["-c", "$HOME/ghq/github.com/ShoheiTakei/dotfiles/alacritty/toggle-opacity.sh"] }
