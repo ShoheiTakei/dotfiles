@@ -1,0 +1,48 @@
+// Scroll is left at zellij's default: Ctrl s enters Scroll mode
+// (j/k, Ctrl f/b, d/u, / to search, e to open the buffer in $EDITOR, Esc to exit).
+//
+// Ctrl b is unbound because Claude Code uses it to background tasks; the tmux-style
+// mode lives on Ctrl a instead.
+keybinds {
+    unbind "Ctrl b"
+
+    normal {
+        bind "Ctrl a" { SwitchToMode "Tmux"; }
+
+        // Claude Code: Shift+Enter = newline. Terminals send CSI-u (ESC [ 13 ; 2 u)
+        // but zellij only re-emits it to panes that negotiated the kitty protocol,
+        // so write the bytes through unconditionally.
+        bind "Shift Enter" { Write 27 91 49 51 59 50 117; }
+    }
+
+    // merges with the default tmux-mode binds:
+    //   %  new pane right   "  new pane down   z fullscreen    x close pane
+    //   h j k l focus       o next pane        c new tab       n p next/prev tab
+    //   , rename tab        [ scroll mode      d detach        space next layout
+    tmux {
+        bind "Ctrl a" { SwitchToMode "Normal"; }
+
+        // tmux muscle memory: | and - as aliases for % and "
+        bind "|" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+        // ToggleFloatingPanes only shows/hides existing floating panes, so `f`
+        // spawns one and `F` toggles the whole floating layer.
+        bind "f" { Run "zsh" { floating true; }; SwitchToMode "Normal"; }
+        bind "F" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "Normal"; }
+        bind "s" { NewPane "stacked"; SwitchToMode "Normal"; }
+        bind "w" { LaunchOrFocusPlugin "session-manager" { floating true; }; SwitchToMode "Normal"; }
+        bind "1" { GoToTab 1; SwitchToMode "Normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "Normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "Normal"; }
+        bind "4" { GoToTab 4; SwitchToMode "Normal"; }
+        bind "5" { GoToTab 5; SwitchToMode "Normal"; }
+    }
+
+
+}
+
+scroll_buffer_size 20000
+copy_on_select false
+show_startup_tips false
+scrollback_editor "nvim"
