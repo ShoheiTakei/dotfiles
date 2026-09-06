@@ -46,6 +46,27 @@ config.keys = {
 
 	{ key = "x", mods = "LEADER", action = act.ActivateCopyMode },
 
+	-- zellij tmux-mode parity
+	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
+	{ key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+	{ key = "o", mods = "LEADER", action = act.ActivatePaneDirection("Next") },
+	{ key = ",", mods = "LEADER", action = act.PromptInputLine({
+		description = "Rename tab:",
+		action = wezterm.action_callback(function(window, _, line)
+			if line then
+				window:active_tab():set_title(line)
+			end
+		end),
+	}) },
+	{ key = "[", mods = "LEADER", action = act.ActivateCopyMode },
+	{ key = "1", mods = "LEADER", action = act.ActivateTab(0) },
+	{ key = "2", mods = "LEADER", action = act.ActivateTab(1) },
+	{ key = "3", mods = "LEADER", action = act.ActivateTab(2) },
+	{ key = "4", mods = "LEADER", action = act.ActivateTab(3) },
+	{ key = "5", mods = "LEADER", action = act.ActivateTab(4) },
+
 	{ key = "Enter", mods = "SHIFT", action = act.SendString("\x1b[13;2u") },
 }
 
