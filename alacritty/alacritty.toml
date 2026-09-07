@@ -11,6 +11,9 @@ lines = 32
 [font]
 size = 21
 
+[font.normal]
+family = "HackGen Console NF"
+
 [colors.primary]
 background = "#1f1f28"
 
@@ -29,4 +32,3 @@ action = "ToggleViMode"
 key = "Return"
 mods = "Shift"
 chars = "\u001b[13;2u"
-
