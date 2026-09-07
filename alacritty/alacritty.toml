@@ -32,3 +32,12 @@ action = "ToggleViMode"
 key = "Return"
 mods = "Shift"
 chars = "\u001b[13;2u"
+
+# Cmd+Shift+U: jump to the Claude pane waiting longest for input.
+# `command` spawns the process detached, so nothing is echoed to the terminal.
+# zellij has no bind that runs a command without spawning a pane, and Cmd never
+# reaches a TUI anyway, so this lives here.
+[[keyboard.bindings]]
+key = "U"
+mods = "Command|Shift"
+command = { program = "/Users/s.t/.claude/bin/zj-next", args = [] }
