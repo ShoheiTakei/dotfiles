@@ -1,6 +1,3 @@
-// Scroll is left at zellij's default: Ctrl s enters Scroll mode
-// (j/k, Ctrl f/b, d/u, / to search, e to open the buffer in $EDITOR, Esc to exit).
-//
 // Ctrl b is unbound because Claude Code uses it to background tasks. Ctrl a is left
 // alone too: it is beginning-of-line in every shell and editor.
 keybinds {
@@ -12,15 +9,8 @@ keybinds {
         // so write the bytes through unconditionally.
         bind "Shift Enter" { Write 27 91 49 51 59 50 117; }
     }
-
 }
 
-// The session manager renders a single collapsed screen by default, and that screen
-// binds no Right/Left at all -- the list stays at "N tabs, N panes" forever. Only the
-// separate Attach screen, which multi_screen splits out (Tab cycles the screens),
-// binds Right to expand a session into its tab and pane names. Expanding is the only
-// way to read another session's tab names, which is where zellij-attention puts its
-// icon, so this is what makes a detached session's state visible from here.
 plugins {
     session-manager location="zellij:session-manager" {
         multi_screen "true"
@@ -32,24 +22,10 @@ copy_on_select true
 show_startup_tips false
 scrollback_editor "nvim"
 
-// zellij-attention appends ⏳ / ✅ to the tab name when Claude Code needs input
-// or finishes, and clears it when the pane is focused. The icon lives in the tab
-// name itself, so `Ctrl a w` (session-manager) shows the state of tabs in the
-// other sessions too -- which no sidebar plugin does; they only report a count.
-//
-// The plugin holds its state in memory and draws no pane of its own. The hooks
-// that feed it are the Stop / Notification entries in ~/.claude/settings.json.
-//
-// Install (the .wasm is not tracked here):
-//   mkdir -p ~/.config/zellij/plugins
-//   curl -L https://github.com/KiryuuLight/zellij-attention/releases/download/v0.3.1/zellij-attention.wasm \
-//     -o ~/.config/zellij/plugins/zellij-attention.wasm
 load_plugins {
     "file:~/.config/zellij/plugins/zellij-attention.wasm"
 }
 
-// 0.45 defaults pane_frame_style to "titles", which spends a whole row on a
-// title bar above each pane. "full" draws the border and puts the title in it.
 pane_frame_style "full"
 ui {
     pane_frames {
@@ -57,6 +33,4 @@ ui {
     }
 }
 
-// Stacked panes otherwise render every collapsed pane's title as its own row
-// across the top of the stack.
 stacked_pane_list false
