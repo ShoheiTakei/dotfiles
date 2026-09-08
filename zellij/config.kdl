@@ -83,3 +83,7 @@ ui {
         rounded_corners true
     }
 }
+
+// Stacked panes otherwise render every collapsed pane's title as its own row
+// across the top of the stack.
+stacked_pane_list false
