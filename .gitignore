@@ -6,3 +6,6 @@ karabiner/automatic_backups/
 
 # local machine state
 .claude/settings.local.json
+
+# zellij-attention は release からダウンロードする（config.kdl のコメント参照）
+zellij/plugins/

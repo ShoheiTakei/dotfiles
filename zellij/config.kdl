@@ -42,7 +42,35 @@ keybinds {
 
 }
 
+// The session manager renders a single collapsed screen by default, and that screen
+// binds no Right/Left at all -- the list stays at "N tabs, N panes" forever. Only the
+// separate Attach screen, which multi_screen splits out (Tab cycles the screens),
+// binds Right to expand a session into its tab and pane names. Expanding is the only
+// way to read another session's tab names, which is where zellij-attention puts its
+// icon, so this is what makes a detached session's state visible from here.
+plugins {
+    session-manager location="zellij:session-manager" {
+        multi_screen "true"
+    }
+}
+
 scroll_buffer_size 20000
 copy_on_select false
 show_startup_tips false
 scrollback_editor "nvim"
+
+// zellij-attention appends ⏳ / ✅ to the tab name when Claude Code needs input
+// or finishes, and clears it when the pane is focused. The icon lives in the tab
+// name itself, so `Ctrl a w` (session-manager) shows the state of tabs in the
+// other sessions too -- which no sidebar plugin does; they only report a count.
+//
+// The plugin holds its state in memory and draws no pane of its own. The hooks
+// that feed it are the Stop / Notification entries in ~/.claude/settings.json.
+//
+// Install (the .wasm is not tracked here):
+//   mkdir -p ~/.config/zellij/plugins
+//   curl -L https://github.com/KiryuuLight/zellij-attention/releases/download/v0.3.1/zellij-attention.wasm \
+//     -o ~/.config/zellij/plugins/zellij-attention.wasm
+load_plugins {
+    "file:~/.config/zellij/plugins/zellij-attention.wasm"
+}
