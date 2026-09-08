@@ -74,3 +74,12 @@ scrollback_editor "nvim"
 load_plugins {
     "file:~/.config/zellij/plugins/zellij-attention.wasm"
 }
+
+// 0.45 defaults pane_frame_style to "titles", which spends a whole row on a
+// title bar above each pane. "full" draws the border and puts the title in it.
+pane_frame_style "full"
+ui {
+    pane_frames {
+        rounded_corners true
+    }
+}
