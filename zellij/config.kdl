@@ -28,7 +28,7 @@ plugins {
 }
 
 scroll_buffer_size 20000
-copy_on_select false
+copy_on_select true
 show_startup_tips false
 scrollback_editor "nvim"
 
